@@ -4,7 +4,10 @@ import ToDoListScreen from '../../screens/todolist/ToDoListScreen';
 import {ScreenName} from '../entities/ScreenName';
 
 const MainStack = createStackNavigator();
+
 const MainStackNavigator = () => {
+  /// Render
+
   return (
     <MainStack.Navigator initialRouteName={ScreenName.forToDoList}>
       <MainStack.Screen

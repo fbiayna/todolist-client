@@ -1,5 +1,5 @@
 export enum NavigatorName {
   forRootStack = 'RootStackNavigator',
-  forSwitcherStack = 'SwitcherStackNavigator',
+  forSwitchStack = 'SwitchStackNavigator',
   forMainStack = 'MainStackNavigator',
 }
