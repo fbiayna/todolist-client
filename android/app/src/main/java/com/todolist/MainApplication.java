@@ -1,4 +1,4 @@
-package com.todolist;
+package com.todolist.app;
 
 import android.app.Application;
 import android.content.Context;

@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.todolist.BuildConfig;
-import com.todolist.newarchitecture.components.MainComponentsRegistry;
-import com.todolist.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.todolist.app.BuildConfig;
+import com.todolist.app.newarchitecture.components.MainComponentsRegistry;
+import com.todolist.app.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
