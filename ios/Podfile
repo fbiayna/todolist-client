@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '11.0'
+platform :ios, '12.0'
 install! 'cocoapods', :deterministic_uuids => false
 
 def default_pods
@@ -9,6 +9,13 @@ def default_pods
 
   # Flags change depending on the env values.
   flags = get_default_flags()
+
+  use_frameworks!
+  pod 'Firebase', :modular_headers => true
+  pod 'FirebaseCore', :modular_headers => true
+  pod 'GoogleUtilities', :modular_headers => true
+  $RNFirebaseAsStaticFramework = true
+  $FirebaseSDKVersion = '9.6.0'
 
   use_react_native!(
     :path => config[:reactNativePath],
@@ -23,7 +30,7 @@ def default_pods
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  use_flipper!()
+  # use_flipper!()
 
   # post_install do |installer|
   #   react_native_post_install(installer)
