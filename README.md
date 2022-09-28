@@ -32,7 +32,6 @@
 └── users
     └── [id]
         ├── email: string
-        ├── imageURL: string
         ├── listItemsIDs: string[]
         └── name: string
 ```

@@ -19,4 +19,19 @@ export class AuthenticationRepository implements AuthenticationRepositoryType {
         });
     });
   }
+
+  emailPasswordLogIn(email: string, password: string): Observable<string> {
+    return new Observable(subscriber => {
+      auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(userCredential => {
+          const userID = userCredential.user.uid;
+          subscriber.next(userID);
+          subscriber.complete();
+        })
+        .catch(error => {
+          subscriber.error(error);
+        });
+    });
+  }
 }
