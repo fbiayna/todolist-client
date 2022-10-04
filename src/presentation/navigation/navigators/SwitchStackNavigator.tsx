@@ -11,8 +11,6 @@ const SwitcherStack = createStackNavigator();
 
 type SwitchStackNavigatorProps = {
   isAuthenticated: boolean;
-  isInitialDataLoaded: boolean;
-  isUserDataLoaded: boolean;
   isSplashAnimationFinished: boolean;
   isVerifyingAuthenticationFinished: boolean;
 };
@@ -72,9 +70,16 @@ const SwitchStackNavigator = (props: SwitchStackNavigatorProps) => {
 /// Redux methods
 
 const mapStateToProps = (state: {
-  appState: {didSplashAnimationFinish: boolean};
+  appState: {
+    isAuthenticated: boolean;
+    isSplashAnimationFinished: boolean;
+    isVerifyingAuthenticationFinished: boolean;
+  };
 }) => ({
-  didSplashAnimationFinish: state.appState.didSplashAnimationFinish,
+  isAuthenticated: state.appState.isAuthenticated,
+  isSplashAnimationFinished: state.appState.isSplashAnimationFinished,
+  isVerifyingAuthenticationFinished:
+    state.appState.isVerifyingAuthenticationFinished,
 });
 
 const ConnectedSwitchStackNavigator =

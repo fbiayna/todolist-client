@@ -6,8 +6,6 @@ import {
   finishedSplashAnimation,
   finishedVerifyingAuthentication,
   setAuthenticationState,
-  setLoadInitialDataState,
-  setLoadUserDataState,
 } from '../../../application/redux/actions';
 import {container} from 'tsyringe';
 import {IsAuthenticatedUseCaseType} from '../../../domain/interfaces/usecases/auth/IsAuthenticatedUseCaseType';
@@ -17,8 +15,6 @@ type SplashScreenProps = {
   finishedSplashAnimation: () => void;
   finishedVerifyingAuthentication: () => void;
   setAuthenticationState: (isAuthenticated: boolean) => void;
-  setLoadInitialDataState: (isLoaded: boolean) => void;
-  setLoadUserDataState: (isLoaded: boolean) => void;
 };
 
 const SplashScreen = (props: SplashScreenProps) => {
@@ -83,8 +79,6 @@ const mapDispatchToProps = {
   finishedSplashAnimation,
   finishedVerifyingAuthentication,
   setAuthenticationState,
-  setLoadInitialDataState,
-  setLoadUserDataState,
 };
 
 export default connect(null, mapDispatchToProps)(SplashScreen);
