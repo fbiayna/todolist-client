@@ -6,13 +6,12 @@ import {NavigatorName} from '../entities/NavigatorName';
 import {ScreenName} from '../entities/ScreenName';
 import SplashScreen from '../../screens/splash/SplashScreen';
 import AuthScreen from '../../screens/auth/AuthScreen';
+import fadeInScreenOptionsStyles from './styles/FadeInScreenOptionsStyles';
 
 const SwitcherStack = createStackNavigator();
 
 type SwitchStackNavigatorProps = {
   isAuthenticated: boolean;
-  isInitialDataLoaded: boolean;
-  isUserDataLoaded: boolean;
   isSplashAnimationFinished: boolean;
   isVerifyingAuthenticationFinished: boolean;
 };
@@ -61,7 +60,7 @@ const SwitchStackNavigator = (props: SwitchStackNavigatorProps) => {
     <SwitcherStack.Navigator
       initialRouteName={ScreenName.forSplash}
       screenOptions={{
-        presentation: 'modal',
+        ...fadeInScreenOptionsStyles,
         headerShown: false,
       }}>
       {getScreen()}
@@ -72,9 +71,16 @@ const SwitchStackNavigator = (props: SwitchStackNavigatorProps) => {
 /// Redux methods
 
 const mapStateToProps = (state: {
-  appState: {didSplashAnimationFinish: boolean};
+  appState: {
+    isAuthenticated: boolean;
+    isSplashAnimationFinished: boolean;
+    isVerifyingAuthenticationFinished: boolean;
+  };
 }) => ({
-  didSplashAnimationFinish: state.appState.didSplashAnimationFinish,
+  isAuthenticated: state.appState.isAuthenticated,
+  isSplashAnimationFinished: state.appState.isSplashAnimationFinished,
+  isVerifyingAuthenticationFinished:
+    state.appState.isVerifyingAuthenticationFinished,
 });
 
 const ConnectedSwitchStackNavigator =
