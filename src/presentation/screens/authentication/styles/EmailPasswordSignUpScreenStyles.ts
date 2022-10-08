@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-const AuthScreenStyles = StyleSheet.create({
+const EmailPasswordSignUpScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -8,4 +8,4 @@ const AuthScreenStyles = StyleSheet.create({
   },
 });
 
-export default AuthScreenStyles;
+export default EmailPasswordSignUpScreenStyles;
