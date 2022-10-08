@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {Text, TextInput, TouchableWithoutFeedback, View} from 'react-native';
 import {connect} from 'react-redux';
@@ -5,13 +6,13 @@ import {take} from 'rxjs';
 import {container} from 'tsyringe';
 import {setAuthenticationState} from '../../../application/redux/actions';
 import {EmailPasswordSignUpUseCaseType} from '../../../domain/interfaces/usecases/auth/EmailPasswordSignUpUseCaseType';
-import AuthScreenStyles from './styles/AuthScreenStyles';
+import EmailPasswordSignUpScreenStyles from './styles/EmailPasswordSignUpScreenStyles';
 
-type AuthScreenProps = {
+type EmailPasswordSignUpScreenProps = {
   setAuthenticationState: (isAuthenticated: boolean) => void;
 };
 
-const AuthScreen = (props: AuthScreenProps) => {
+const EmailPasswordSignUpScreen = (props: EmailPasswordSignUpScreenProps) => {
   /// Dependencies
 
   const useCases = {
@@ -22,6 +23,8 @@ const AuthScreen = (props: AuthScreenProps) => {
   };
 
   /// Hooks
+
+  const navigation = useNavigation();
 
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
@@ -43,10 +46,14 @@ const AuthScreen = (props: AuthScreenProps) => {
     }
   };
 
+  const onEmailPasswordLogInTapped = () => {
+    navigation.navigate('emailPasswordLogIn');
+  };
+
   /// Render
 
   return (
-    <View style={AuthScreenStyles.container}>
+    <View style={EmailPasswordSignUpScreenStyles.container}>
       <Text>Auth Screen</Text>
       <TextInput
         autoCapitalize={'none'}
@@ -64,6 +71,9 @@ const AuthScreen = (props: AuthScreenProps) => {
       <TouchableWithoutFeedback onPress={onEmailPasswordSignUpDoneTapped}>
         <Text>Done</Text>
       </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={onEmailPasswordLogInTapped}>
+        <Text>Do you have an account? Log in!</Text>
+      </TouchableWithoutFeedback>
     </View>
   );
 };
@@ -72,4 +82,4 @@ const mapDispatchToProps = {
   setAuthenticationState,
 };
 
-export default connect(null, mapDispatchToProps)(AuthScreen);
+export default connect(null, mapDispatchToProps)(EmailPasswordSignUpScreen);
