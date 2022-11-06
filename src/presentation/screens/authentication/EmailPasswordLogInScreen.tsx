@@ -21,9 +21,11 @@ const EmailPasswordLogInScreen = (props: EmailPasswordLogInScreenProps) => {
     ),
   };
 
-  /// Hooks
+  /// Navigation
 
   const navigation = useNavigation();
+
+  /// States
 
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();

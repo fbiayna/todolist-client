@@ -26,7 +26,7 @@ const SplashScreen = (props: SplashScreenProps) => {
     ),
   };
 
-  /// Hooks
+  /// Effects
 
   useEffect(() => {
     const finishSplashAnimation = () => {
