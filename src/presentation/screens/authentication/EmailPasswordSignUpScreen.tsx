@@ -49,7 +49,7 @@ const EmailPasswordSignUpScreen = (props: EmailPasswordSignUpScreenProps) => {
         .subscribe({
           next: () => {
             props.setAuthenticationState(true);
-            console.log('newUser is creaded!');
+            console.log('newUser is created!');
           },
           error: error => console.log(error),
         });
@@ -57,7 +57,7 @@ const EmailPasswordSignUpScreen = (props: EmailPasswordSignUpScreenProps) => {
   };
 
   const onEmailPasswordLogInTapped = () => {
-    navigation.navigate('emailPasswordLogIn');
+    navigation.navigate('emailPasswordLogInScreen');
   };
 
   /// Render

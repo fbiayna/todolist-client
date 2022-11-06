@@ -2,13 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 import MainStackNavigator from './MainStackNavigator';
-import {NavigatorName} from '../entities/NavigatorName';
-import {ScreenName} from '../entities/ScreenName';
 import SplashScreen from '../../screens/splash/SplashScreen';
 import fadeInScreenOptionsStyles from './styles/FadeInScreenOptionsStyles';
 import AuthenticationStackNavigator from './AuthenticationStackNavigator';
+import {SwitchStackNavigatorParamListType} from '../interfaces/SwitchStackNavigatorParamListType';
 
-const SwitcherStack = createStackNavigator();
+const SwitcherStack = createStackNavigator<SwitchStackNavigatorParamListType>();
 
 type SwitchStackNavigatorProps = {
   isAuthenticated: boolean;
@@ -27,7 +26,7 @@ const SwitchStackNavigator = (props: SwitchStackNavigatorProps) => {
     ) {
       return (
         <SwitcherStack.Screen
-          name={NavigatorName.forMainStack}
+          name={'mainStackNavigator'}
           component={MainStackNavigator}
         />
       );
@@ -40,17 +39,14 @@ const SwitchStackNavigator = (props: SwitchStackNavigatorProps) => {
     ) {
       return (
         <SwitcherStack.Screen
-          name={NavigatorName.forAuthenticationStack}
+          name={'authenticationStackNavigator'}
           component={AuthenticationStackNavigator}
         />
       );
     }
 
     return (
-      <SwitcherStack.Screen
-        name={ScreenName.forSplash}
-        component={SplashScreen}
-      />
+      <SwitcherStack.Screen name={'splashScreen'} component={SplashScreen} />
     );
   };
 
@@ -58,7 +54,7 @@ const SwitchStackNavigator = (props: SwitchStackNavigatorProps) => {
 
   return (
     <SwitcherStack.Navigator
-      initialRouteName={ScreenName.forSplash}
+      initialRouteName={'splashScreen'}
       screenOptions={{
         ...fadeInScreenOptionsStyles,
         headerShown: false,
