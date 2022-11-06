@@ -11,7 +11,8 @@ export class UserRepository implements UserRepositoryType {
     return new Observable(subscriber => {
       firestore()
         .collection('users')
-        .add({createdAt: Date.now(), userID, name, email})
+        .doc(userID)
+        .set({createdAt: Date.now(), name, email})
         .then(() => {
           subscriber.next();
           subscriber.complete();
@@ -29,6 +30,7 @@ export class UserRepository implements UserRepositoryType {
         .doc(userID)
         .onSnapshot(
           snapshot => {
+            console.log('snapshot', snapshot.data());
             const user = userConverter.fromFirestore(snapshot);
             subscriber.next(user);
             subscriber.complete();

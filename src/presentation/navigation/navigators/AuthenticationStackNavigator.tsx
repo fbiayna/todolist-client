@@ -12,7 +12,7 @@ const AuthenticationStackNavigator = () => {
 
   return (
     <AuthenticationStack.Navigator
-      initialRouteName={'emailPasswordSignUpScreen'}>
+      initialRouteName={'emailPasswordLogInScreen'}>
       <AuthenticationStack.Screen
         name={'emailPasswordSignUpScreen'}
         component={EmailPasswordSignUpScreen}

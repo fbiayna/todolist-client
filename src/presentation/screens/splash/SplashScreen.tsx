@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect} from 'react';
 import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
@@ -64,7 +65,7 @@ const SplashScreen = (props: SplashScreenProps) => {
           finishSplashAnimation();
         },
       });
-  }, [props, useCases.isAuthenticatedUseCase]);
+  }, []);
 
   /// Render
 

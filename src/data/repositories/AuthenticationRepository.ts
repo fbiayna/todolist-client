@@ -52,4 +52,18 @@ export class AuthenticationRepository implements AuthenticationRepositoryType {
         });
     });
   }
+
+  signOut(): Observable<void> {
+    return new Observable(subscriber => {
+      auth()
+        .signOut()
+        .then(() => {
+          subscriber.next();
+          subscriber.complete();
+        })
+        .catch(error => {
+          subscriber.error(error);
+        });
+    });
+  }
 }

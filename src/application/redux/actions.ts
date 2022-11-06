@@ -4,7 +4,7 @@ export const FINISHED_VERIFYING_AUTHENTICATION =
 export const AUTHENTICATION_STATE = 'AUTHENTICATION_STATE';
 export const INITIAL_DATA_LOAD_STATE = 'INITIAL_DATA_LOAD_STATE';
 export const USER_DATA_LOAD_STATE = 'USER_DATA_LOAD_STATE';
-export const USER_LOGGED_OUT = 'USER_LOGGED_OUT';
+export const USER_SIGNED_OUT = 'USER_SIGNED_OUT';
 
 export const finishedSplashAnimation = () => {
   return {type: FINISHED_SPLASH_ANIMATION};
@@ -14,8 +14,8 @@ export const finishedVerifyingAuthentication = () => {
   return {type: FINISHED_VERIFYING_AUTHENTICATION};
 };
 
-export const logOut = () => {
-  return {type: USER_LOGGED_OUT};
+export const signOut = () => {
+  return {type: USER_SIGNED_OUT};
 };
 
 export const setAuthenticationState = (isAuthenticated: boolean) => {
