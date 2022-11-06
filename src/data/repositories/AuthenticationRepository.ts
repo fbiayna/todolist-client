@@ -5,6 +5,10 @@ import auth from '@react-native-firebase/auth';
 
 @injectable()
 export class AuthenticationRepository implements AuthenticationRepositoryType {
+  get authenticatedUserID(): string | undefined {
+    return auth().currentUser?.uid;
+  }
+
   isAuthenticated(): Observable<boolean> {
     return new Observable(subscriber => {
       auth().onAuthStateChanged(user => {
