@@ -2,10 +2,11 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {Text, TextInput, TouchableWithoutFeedback, View} from 'react-native';
 import {connect} from 'react-redux';
-import {take} from 'rxjs';
+import {mergeMap, take} from 'rxjs';
 import {container} from 'tsyringe';
 import {setAuthenticationState} from '../../../application/redux/actions';
 import {EmailPasswordSignUpUseCaseType} from '../../../domain/interfaces/usecases/auth/EmailPasswordSignUpUseCaseType';
+import {CreateUserUseCaseType} from '../../../domain/interfaces/usecases/user/CreateUserUseCaseType';
 import EmailPasswordSignUpScreenStyles from './styles/EmailPasswordSignUpScreenStyles';
 
 type EmailPasswordSignUpScreenProps = {
@@ -20,26 +21,35 @@ const EmailPasswordSignUpScreen = (props: EmailPasswordSignUpScreenProps) => {
       container.resolve<EmailPasswordSignUpUseCaseType>(
         'EmailPasswordSignUpUseCaseType',
       ),
+    createUserUseCase: container.resolve<CreateUserUseCaseType>(
+      'CreateUserUseCaseType',
+    ),
   };
 
   /// Hooks
 
   const navigation = useNavigation();
 
+  const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
 
   /// Actions
 
   const onEmailPasswordSignUpDoneTapped = () => {
-    if (email && password) {
+    if (name && email && password) {
       useCases.emailPasswordSignUpUseCase
         .emailPasswordSignUp(email, password)
-        .pipe(take(1))
+        .pipe(
+          mergeMap(userID =>
+            useCases.createUserUseCase.createUser(userID, name, email),
+          ),
+          take(1),
+        )
         .subscribe({
-          next: newUserID => {
+          next: () => {
             props.setAuthenticationState(true);
-            console.log('newUserID', newUserID);
+            console.log('newUser is creaded!');
           },
           error: error => console.log(error),
         });
@@ -55,6 +65,12 @@ const EmailPasswordSignUpScreen = (props: EmailPasswordSignUpScreenProps) => {
   return (
     <View style={EmailPasswordSignUpScreenStyles.container}>
       <Text>Auth Screen</Text>
+      <TextInput
+        autoCapitalize={'none'}
+        value={name}
+        placeholder={'Name'}
+        onChangeText={setName}
+      />
       <TextInput
         autoCapitalize={'none'}
         value={email}
