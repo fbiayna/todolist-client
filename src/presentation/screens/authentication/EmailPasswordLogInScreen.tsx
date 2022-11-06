@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {Text, TextInput, TouchableWithoutFeedback, View} from 'react-native';
 import {connect} from 'react-redux';
@@ -20,7 +21,11 @@ const EmailPasswordLogInScreen = (props: EmailPasswordLogInScreenProps) => {
     ),
   };
 
-  /// Hooks
+  /// Navigation
+
+  const navigation = useNavigation();
+
+  /// States
 
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
@@ -40,6 +45,10 @@ const EmailPasswordLogInScreen = (props: EmailPasswordLogInScreenProps) => {
           error: error => console.log(error),
         });
     }
+  };
+
+  const onEmailPasswordSignUpTapped = () => {
+    navigation.navigate('emailPasswordSignUpScreen');
   };
 
   /// Render
@@ -62,6 +71,9 @@ const EmailPasswordLogInScreen = (props: EmailPasswordLogInScreenProps) => {
       />
       <TouchableWithoutFeedback onPress={onEmailPasswordLogInDoneTapped}>
         <Text>Done</Text>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={onEmailPasswordSignUpTapped}>
+        <Text>Do you want to create an account? Sign up!</Text>
       </TouchableWithoutFeedback>
     </View>
   );

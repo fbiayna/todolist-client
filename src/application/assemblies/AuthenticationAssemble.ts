@@ -14,6 +14,12 @@ import {EmailPasswordLogInUseCaseType} from '../../domain/interfaces/usecases/au
 import {EmailPasswordSignUpUseCase} from '../../domain/usecases/auth/EmailPasswordSignUpUseCase';
 import {IsAuthenticatedUseCase} from '../../domain/usecases/auth/IsAuthenticatedUseCase';
 
+import {GetAuthenticatedUserIDUseCase} from '../../domain/usecases/auth/GetAuthenticatedUserIDUseCase';
+import {GetAuthenticatedUserIDUseCaseType} from '../../domain/interfaces/usecases/auth/GetAuthenticatedUserIDUseCaseType';
+
+import {SignOutUseCaseType} from '../../domain/interfaces/usecases/auth/SignOutUseCaseType';
+import {SignOutUseCase} from '../../domain/usecases/auth/SignOutUseCase';
+
 export const AuthenticationAssemble = () => {
   // Repositories
 
@@ -25,6 +31,19 @@ export const AuthenticationAssemble = () => {
   );
 
   // UseCases
+
+  container.register<GetAuthenticatedUserIDUseCaseType>(
+    'GetAuthenticatedUserIDUseCaseType',
+    {
+      useFactory: factoryContainer => {
+        const authenticationRepository =
+          factoryContainer.resolve<AuthenticationRepositoryType>(
+            'AuthenticationRepositoryType',
+          );
+        return new GetAuthenticatedUserIDUseCase(authenticationRepository);
+      },
+    },
+  );
 
   container.register<IsAuthenticatedUseCaseType>('IsAuthenticatedUseCaseType', {
     useFactory: factoryContainer => {
@@ -61,4 +80,14 @@ export const AuthenticationAssemble = () => {
       },
     },
   );
+
+  container.register<SignOutUseCaseType>('SignOutUseCaseType', {
+    useFactory: factoryContainer => {
+      const authenticationRepository =
+        factoryContainer.resolve<AuthenticationRepositoryType>(
+          'AuthenticationRepositoryType',
+        );
+      return new SignOutUseCase(authenticationRepository);
+    },
+  });
 };

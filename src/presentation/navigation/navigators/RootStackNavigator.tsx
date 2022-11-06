@@ -1,22 +1,22 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import ConnectedSwitchStackNavigator from './SwitchStackNavigator';
-import {NavigatorName} from '../entities/NavigatorName';
+import {RootStackNavigatorParamListType} from '../interfaces/RootStackNavigatorParamListType';
 
-const RootStack = createStackNavigator();
+const RootStack = createStackNavigator<RootStackNavigatorParamListType>();
 
 const RootStackNavigator = () => {
   /// Render
 
   return (
     <RootStack.Navigator
-      initialRouteName={NavigatorName.forSwitchStack}
+      initialRouteName={'switchStackNavigator'}
       screenOptions={{
         presentation: 'modal',
         headerShown: false,
       }}>
       <RootStack.Screen
-        name={NavigatorName.forSwitchStack}
+        name={'switchStackNavigator'}
         component={ConnectedSwitchStackNavigator}
       />
     </RootStack.Navigator>

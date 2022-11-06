@@ -5,7 +5,7 @@ import {
   FINISHED_SPLASH_ANIMATION,
   INITIAL_DATA_LOAD_STATE,
   USER_DATA_LOAD_STATE,
-  USER_LOGGED_OUT,
+  USER_SIGNED_OUT,
 } from './actions';
 
 const APP_INTIAL_STATE = {
@@ -45,7 +45,7 @@ const appStateReducer = (state = APP_INTIAL_STATE, action: ReducerAction) => {
         ...state,
         isUserDataLoaded: action.payload,
       };
-    case USER_LOGGED_OUT:
+    case USER_SIGNED_OUT:
       return {
         isSplashAnimationFinished: true,
         isVerifyingAuthenticationFinished: true,

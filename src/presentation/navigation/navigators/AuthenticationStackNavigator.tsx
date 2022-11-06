@@ -2,22 +2,23 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import EmailPasswordLogInScreen from '../../screens/authentication/EmailPasswordLogInScreen';
 import EmailPasswordSignUpScreen from '../../screens/authentication/EmailPasswordSignUpScreen';
-import {AuthenticationStackParamListType} from '../interfaces/AuthenticationStackParamListType';
+import {AuthenticationStackNavigatorParamListType} from '../interfaces/AuthenticationStackNavigatorParamListType';
 
 const AuthenticationStack =
-  createStackNavigator<AuthenticationStackParamListType>();
+  createStackNavigator<AuthenticationStackNavigatorParamListType>();
 
 const AuthenticationStackNavigator = () => {
   /// Render
 
   return (
-    <AuthenticationStack.Navigator initialRouteName={'emailPasswordSignUp'}>
+    <AuthenticationStack.Navigator
+      initialRouteName={'emailPasswordLogInScreen'}>
       <AuthenticationStack.Screen
-        name={'emailPasswordSignUp'}
+        name={'emailPasswordSignUpScreen'}
         component={EmailPasswordSignUpScreen}
       />
       <AuthenticationStack.Screen
-        name={'emailPasswordLogIn'}
+        name={'emailPasswordLogInScreen'}
         component={EmailPasswordLogInScreen}
       />
     </AuthenticationStack.Navigator>

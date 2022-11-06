@@ -27,7 +27,7 @@
 ├── listItems
 │   └── [id]
 │       ├── title: string
-│       └──  isDone: boolean
+│       └── isDone: boolean
 └── users
     └── [id]
         ├── email: string
