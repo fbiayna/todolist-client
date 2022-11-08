@@ -39,4 +39,18 @@ export class UserRepository implements UserRepositoryType {
         );
     });
   }
+
+  addUserItemID(userID: string, itemID: string): Observable<void> {
+    return new Observable(subscriber => {
+      firestore()
+        .collection('users')
+        .doc(userID)
+        .update({itemsIDs: firestore.FieldValue.arrayUnion(itemID)})
+        .then(() => {
+          subscriber.next();
+          subscriber.complete();
+        })
+        .catch(error => subscriber.error(error));
+    });
+  }
 }
