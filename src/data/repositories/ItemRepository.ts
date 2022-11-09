@@ -20,6 +20,20 @@ export class ItemRepository implements ItemRepositoryType {
     });
   }
 
+  setItemTitle(itemID: string, title: string): Observable<void> {
+    return new Observable(subscriber => {
+      firestore()
+        .collection('items')
+        .doc(itemID)
+        .set({title})
+        .then(() => {
+          subscriber.next();
+          subscriber.complete();
+        })
+        .catch(error => subscriber.error(error));
+    });
+  }
+
   deleteItem(itemID: string): Observable<void> {
     return new Observable(subscriber => {
       firestore()
