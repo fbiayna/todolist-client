@@ -19,4 +19,18 @@ export class ItemRepository implements ItemRepositoryType {
         .catch(error => subscriber.error(error));
     });
   }
+
+  deleteItem(itemID: string): Observable<void> {
+    return new Observable(subscriber => {
+      firestore()
+        .collection('items')
+        .doc(itemID)
+        .delete()
+        .then(() => {
+          subscriber.next();
+          subscriber.complete();
+        })
+        .catch(error => subscriber.error(error));
+    });
+  }
 }
