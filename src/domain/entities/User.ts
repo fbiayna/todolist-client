@@ -5,7 +5,7 @@ class User {
   constructor(
     readonly id: string,
     readonly email: string | undefined = undefined,
-    readonly listItemsIDs: string[] = [],
+    readonly itemsIDs: string[] = [],
     readonly name: string | undefined = undefined,
   ) {}
 }
