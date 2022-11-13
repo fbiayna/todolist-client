@@ -23,13 +23,12 @@ export class AuthenticationRepository implements AuthenticationRepositoryType {
     });
   }
 
-  emailPasswordSignUp(email: string, password: string): Observable<string> {
+  emailPasswordSignUp(email: string, password: string): Observable<void> {
     return new Observable(subscriber => {
       auth()
         .createUserWithEmailAndPassword(email, password)
-        .then(userCredential => {
-          const newUserID = userCredential.user.uid;
-          subscriber.next(newUserID);
+        .then(() => {
+          subscriber.next();
           subscriber.complete();
         })
         .catch(error => {
@@ -38,13 +37,12 @@ export class AuthenticationRepository implements AuthenticationRepositoryType {
     });
   }
 
-  emailPasswordLogIn(email: string, password: string): Observable<string> {
+  emailPasswordLogIn(email: string, password: string): Observable<void> {
     return new Observable(subscriber => {
       auth()
         .signInWithEmailAndPassword(email, password)
-        .then(userCredential => {
-          const userID = userCredential.user.uid;
-          subscriber.next(userID);
+        .then(() => {
+          subscriber.next();
           subscriber.complete();
         })
         .catch(error => {

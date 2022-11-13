@@ -43,15 +43,12 @@ const EmailPasswordSignUpScreen = (props: EmailPasswordSignUpScreenProps) => {
       useCases.emailPasswordSignUpUseCase
         .emailPasswordSignUp(email, password)
         .pipe(
-          mergeMap(userID =>
-            useCases.createUserUseCase.createUser(userID, name, email),
-          ),
+          mergeMap(() => useCases.createUserUseCase.createUser(name, email)),
           take(1),
         )
         .subscribe({
           next: () => {
             props.setAuthenticationState(true);
-            console.log('newUser is created!');
           },
           error: error => console.log(error),
         });
