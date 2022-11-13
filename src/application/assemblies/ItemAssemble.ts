@@ -22,6 +22,7 @@ import {SetItemTitleUseCaseType} from '../../domain/interfaces/usecases/item/Set
 
 import {SetItemIsDoneUseCaseType} from '../../domain/interfaces/usecases/item/SetItemIsDoneUseCaseType';
 import {SetItemIsDoneUseCase} from '../../domain/usecases/item/SetItemIsDoneUseCase';
+import {AuthenticationRepositoryType} from '../../data/interfaces/repositories/AuthenticationRepositoryType';
 
 export const ItemAssemble = () => {
   /// Repositories
@@ -38,8 +39,16 @@ export const ItemAssemble = () => {
         factoryContainer.resolve<ItemRepositoryType>('ItemRepositoryType');
       const userRepository =
         factoryContainer.resolve<UserRepositoryType>('UserRepositoryType');
+      const authenticationRepository =
+        factoryContainer.resolve<AuthenticationRepositoryType>(
+          'AuthenticationRepositoryType',
+        );
 
-      return new CreateItemUseCase(itemRepository, userRepository);
+      return new CreateItemUseCase(
+        itemRepository,
+        userRepository,
+        authenticationRepository,
+      );
     },
   });
 
@@ -76,8 +85,16 @@ export const ItemAssemble = () => {
         factoryContainer.resolve<ItemRepositoryType>('ItemRepositoryType');
       const userRepository =
         factoryContainer.resolve<UserRepositoryType>('UserRepositoryType');
+      const authenticationRepository =
+        factoryContainer.resolve<AuthenticationRepositoryType>(
+          'AuthenticationRepositoryType',
+        );
 
-      return new DeleteItemUseCase(itemRepository, userRepository);
+      return new DeleteItemUseCase(
+        itemRepository,
+        userRepository,
+        authenticationRepository,
+      );
     },
   });
 };

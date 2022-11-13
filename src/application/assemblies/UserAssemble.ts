@@ -1,4 +1,5 @@
 import {container} from 'tsyringe';
+import {AuthenticationRepositoryType} from '../../data/interfaces/repositories/AuthenticationRepositoryType';
 
 /// Repositories
 import {UserRepositoryType} from '../../data/interfaces/repositories/UserRepositoryType';
@@ -24,8 +25,12 @@ export const UserAssemble = () => {
     useFactory: factoryContainer => {
       const userRepository =
         factoryContainer.resolve<UserRepositoryType>('UserRepositoryType');
+      const authenticationRepository =
+        factoryContainer.resolve<AuthenticationRepositoryType>(
+          'AuthenticationRepositoryType',
+        );
 
-      return new CreateUserUseCase(userRepository);
+      return new CreateUserUseCase(userRepository, authenticationRepository);
     },
   });
 
@@ -33,8 +38,12 @@ export const UserAssemble = () => {
     useFactory: factoryContainer => {
       const userRepository =
         factoryContainer.resolve<UserRepositoryType>('UserRepositoryType');
+      const authenticationRepository =
+        factoryContainer.resolve<AuthenticationRepositoryType>(
+          'AuthenticationRepositoryType',
+        );
 
-      return new OnUserChangedUseCase(userRepository);
+      return new OnUserChangedUseCase(userRepository, authenticationRepository);
     },
   });
 };
