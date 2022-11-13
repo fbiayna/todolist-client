@@ -11,6 +11,18 @@ import {UserRepositoryType} from '../../data/interfaces/repositories/UserReposit
 import {CreateItemUseCaseType} from '../../domain/interfaces/usecases/item/CreateItemUseCaseType';
 import {CreateItemUseCase} from '../../domain/usecases/item/CreateItemUseCase';
 
+import {DeleteItemUseCaseType} from '../../domain/interfaces/usecases/item/DeleteItemUseCaseType';
+import {DeleteItemUseCase} from '../../domain/usecases/item/DeleteItemUseCase';
+
+import {OnItemChangedUseCaseType} from '../../domain/interfaces/usecases/item/OnItemChangedUseCaseType';
+import {OnItemChangedUseCase} from '../../domain/usecases/item/OnItemChangedUseCase';
+
+import {SetItemTitleUseCase} from '../../domain/usecases/item/SetItemTitleUseCase';
+import {SetItemTitleUseCaseType} from '../../domain/interfaces/usecases/item/SetItemTitleUseCaseType';
+
+import {SetItemIsDoneUseCaseType} from '../../domain/interfaces/usecases/item/SetItemIsDoneUseCaseType';
+import {SetItemIsDoneUseCase} from '../../domain/usecases/item/SetItemIsDoneUseCase';
+
 export const ItemAssemble = () => {
   /// Repositories
 
@@ -28,6 +40,44 @@ export const ItemAssemble = () => {
         factoryContainer.resolve<UserRepositoryType>('UserRepositoryType');
 
       return new CreateItemUseCase(itemRepository, userRepository);
+    },
+  });
+
+  container.register<OnItemChangedUseCaseType>('OnItemChangedUseCaseType', {
+    useFactory: factoryContainer => {
+      const itemRepository =
+        factoryContainer.resolve<ItemRepositoryType>('ItemRepositoryType');
+
+      return new OnItemChangedUseCase(itemRepository);
+    },
+  });
+
+  container.register<SetItemTitleUseCaseType>('SetItemTitleUseCaseType', {
+    useFactory: factoryContainer => {
+      const itemRepository =
+        factoryContainer.resolve<ItemRepositoryType>('ItemRepositoryType');
+
+      return new SetItemTitleUseCase(itemRepository);
+    },
+  });
+
+  container.register<SetItemIsDoneUseCaseType>('SetItemIsDoneUseCaseType', {
+    useFactory: factoryContainer => {
+      const itemRepository =
+        factoryContainer.resolve<ItemRepositoryType>('ItemRepositoryType');
+
+      return new SetItemIsDoneUseCase(itemRepository);
+    },
+  });
+
+  container.register<DeleteItemUseCaseType>('DeleteItemUseCaseType', {
+    useFactory: factoryContainer => {
+      const itemRepository =
+        factoryContainer.resolve<ItemRepositoryType>('ItemRepositoryType');
+      const userRepository =
+        factoryContainer.resolve<UserRepositoryType>('UserRepositoryType');
+
+      return new DeleteItemUseCase(itemRepository, userRepository);
     },
   });
 };
