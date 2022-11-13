@@ -38,8 +38,7 @@ const EmailPasswordLogInScreen = (props: EmailPasswordLogInScreenProps) => {
         .emailPasswordLogIn(email, password)
         .pipe(take(1))
         .subscribe({
-          next: loadedUserID => {
-            console.log('loadedUserID', loadedUserID);
+          next: () => {
             props.setAuthenticationState(true);
           },
           error: error => console.log(error),

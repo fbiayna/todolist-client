@@ -1,26 +1,32 @@
-import {Observable, throwError} from 'rxjs';
+import {mergeMap, Observable, throwError} from 'rxjs';
 import {inject, injectable} from 'tsyringe';
 import {AuthenticationRepositoryType} from '../../../data/interfaces/repositories/AuthenticationRepositoryType';
+import {ItemRepositoryType} from '../../../data/interfaces/repositories/ItemRepositoryType';
 import {UserRepositoryType} from '../../../data/interfaces/repositories/UserRepositoryType';
-import User from '../../entities/User';
-import {OnUserChangedUseCaseType} from '../../interfaces/usecases/user/OnUserChangedUseCaseType';
+import {CreateItemUseCaseType} from '../../interfaces/usecases/item/CreateItemUseCaseType';
 
 @injectable()
-export class OnUserChangedUseCase implements OnUserChangedUseCaseType {
+export class CreateItemUseCase implements CreateItemUseCaseType {
   constructor(
+    @inject('ItemRepositoryType')
+    private itemRepository: ItemRepositoryType,
     @inject('UserRepositoryType')
     private userRepository: UserRepositoryType,
     @inject('AuthenticationRepositoryType')
     private authenticationRepository: AuthenticationRepositoryType,
   ) {}
 
-  onUserChanged(): Observable<User> {
+  createItem(): Observable<void> {
     const userID = this.authenticationRepository.authenticatedUserID;
 
     if (!userID) {
       return throwError(() => 'There is no userID');
     }
 
-    return this.userRepository.onUserChanged(userID);
+    return this.itemRepository
+      .createItem()
+      .pipe(
+        mergeMap(itemID => this.userRepository.addUserItemID(userID, itemID)),
+      );
   }
 }

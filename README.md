@@ -24,14 +24,14 @@
 
 ```
 .
-├── listItems
+├── items
 │   └── [id]
 │       ├── title: string
 │       └── isDone: boolean
 └── users
     └── [id]
         ├── email: string
-        ├── listItemsIDs: string[]
+        ├── itemsIDs: string[]
         └── name: string
 ```
 

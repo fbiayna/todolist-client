@@ -16,13 +16,13 @@ const userConverter = {
       email = data.email;
     }
 
-    let listItemsIDs: string[] = [];
+    let itemsIDs: string[] = [];
     if (
-      Array.isArray(data.listItemsIDs) &&
-      data.listItemsIDs.length &&
-      data.listItemsIDs.every(listItemID => typeof listItemID === 'string')
+      Array.isArray(data.itemsIDs) &&
+      data.itemsIDs.length &&
+      data.itemsIDs.every(listItemID => typeof listItemID === 'string')
     ) {
-      listItemsIDs = data.listItemsIDs;
+      itemsIDs = data.itemsIDs;
     }
 
     let name: string | undefined;
@@ -30,7 +30,7 @@ const userConverter = {
       name = data.name;
     }
 
-    return new User(snapshot.id, email, listItemsIDs, name);
+    return new User(snapshot.id, email, itemsIDs, name);
   },
 };
 

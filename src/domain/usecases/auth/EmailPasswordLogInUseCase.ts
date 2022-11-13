@@ -12,7 +12,7 @@ export class EmailPasswordLogInUseCase
     private authenticationRepository: AuthenticationRepositoryType,
   ) {}
 
-  emailPasswordLogIn(email: string, password: string): Observable<string> {
+  emailPasswordLogIn(email: string, password: string): Observable<void> {
     return this.authenticationRepository.emailPasswordLogIn(email, password);
   }
 }
