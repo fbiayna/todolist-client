@@ -20,7 +20,7 @@ const userConverter = {
     if (
       Array.isArray(data.itemsIDs) &&
       data.itemsIDs.length &&
-      data.itemsIDs.every(listItemID => typeof listItemID === 'string')
+      data.itemsIDs.every(itemID => typeof itemID === 'string')
     ) {
       itemsIDs = data.itemsIDs;
     }
