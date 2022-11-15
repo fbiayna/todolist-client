@@ -1,30 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, TouchableWithoutFeedback} from 'react-native';
+import {View, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {Subscription, take} from 'rxjs';
 import {container} from 'tsyringe';
 import {signOut} from '../../../application/redux/actions';
-import Item from '../../../domain/entities/Item';
-import User from '../../../domain/entities/User';
 import {SignOutUseCaseType} from '../../../domain/interfaces/usecases/auth/SignOutUseCaseType';
 import {OnItemChangedUseCaseType} from '../../../domain/interfaces/usecases/item/OnItemChangedUseCaseType';
 import {OnUserChangedUseCaseType} from '../../../domain/interfaces/usecases/user/OnUserChangedUseCaseType';
 import {ListItemPresentable} from '../../interfaces/ListItemPresentable';
+import {VariousContentListRenderItem} from '../../interfaces/ListRenderItem';
 import difference from '../../utils/SetDifference';
+import {ToDoListScreenContentType} from './interfaces/ToDoListScreenContentType';
+import {ToDoListScreenItemsData} from './interfaces/ToDoListScreenItemsData';
+import {ToDoListScreenProps} from './interfaces/ToDoListScreenProps';
 import ToDoListScreenStyles from './styles/ToDoListScreenStyles';
-
-enum ToDoListScreenContentType {
-  title = 'TITLE',
-  items = 'ITEMS',
-  signOutButton = 'SIGNOUTBUTTON',
-}
-
-type ItemsData = {[key: string]: Item};
-
-type ToDoListScreenProps = {
-  signOut: () => void;
-};
 
 const ToDoListScreen = (props: ToDoListScreenProps) => {
   /// Dependencies
@@ -46,8 +36,8 @@ const ToDoListScreen = (props: ToDoListScreenProps) => {
   /// States
 
   const [name, setName] = useState<string>();
-  const [itemsIDs, setItemsIDs] = useState<string[]>();
-  const [items, setItems] = useState<ItemsData>();
+  const [itemsIDs, setItemsIDs] = useState<string[]>([]);
+  const [items, setItems] = useState<ToDoListScreenItemsData>({});
 
   /// Effects
 
@@ -118,27 +108,59 @@ const ToDoListScreen = (props: ToDoListScreenProps) => {
 
   /// FlatList setup
 
-  const getItems = () => {
+  const getData = () => {
     let screenContent: ListItemPresentable<ToDoListScreenContentType>[] = [];
 
-    const titleItem = {
+    const titleData = {
       key: '1',
       contentType: ToDoListScreenContentType.title,
       title: 'Title',
-      userName: name,
+      name,
     };
 
-    
+    const itemsData = itemsIDs?.map(itemID => ({
+      key: itemID,
+      contentType: ToDoListScreenContentType.item,
+      itemID,
+      title: items[itemID].title,
+      isDone: items[itemID].isDone,
+    }));
+
+    const signOutButtonData = {
+      key: '2',
+      contentType: ToDoListScreenContentType.signOutButton,
+      title: 'Sign out',
+    };
+
+    screenContent.push(titleData, ...itemsData, signOutButtonData);
+    return screenContent;
+  };
+
+  const renderItemData: VariousContentListRenderItem<
+    ToDoListScreenContentType
+  > = ({item}) => {
+    switch (item.contentType) {
+      case ToDoListScreenContentType.title:
+        return null;
+      case ToDoListScreenContentType.item:
+        return null;
+      case ToDoListScreenContentType.signOutButton:
+        return null;
+
+      default:
+        return null;
+    }
   };
 
   /// Render
 
   return (
     <View style={ToDoListScreenStyles.container}>
-      <Text>{`Hello ${name}!`}</Text>
-      <TouchableWithoutFeedback onPress={onSignOutTapped}>
-        <Text>Sign Out</Text>
-      </TouchableWithoutFeedback>
+      <FlatList
+        data={getData()}
+        renderItem={renderItemData}
+        keyExtractor={item => item.key}
+      />
     </View>
   );
 };
