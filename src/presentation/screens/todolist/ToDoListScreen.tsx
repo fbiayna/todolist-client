@@ -11,6 +11,14 @@ import {OnUserChangedUseCaseType} from '../../../domain/interfaces/usecases/user
 import {ListItemPresentable} from '../../interfaces/ListItemPresentable';
 import {VariousContentListRenderItem} from '../../interfaces/ListRenderItem';
 import difference from '../../utils/SetDifference';
+import ToDoListScreenButtonsComponent from './components/ToDoListScreenButtonsComponent';
+import ToDoListScreenItemComponent from './components/ToDoListScreenItemComponent';
+import ToDoListScreenTitleComponent from './components/ToDoListScreenTitleComponent';
+import {
+  ToDoListScreenButtonsComponentProps,
+  ToDoListScreenItemComponentProps,
+  ToDoListScreenTitleComponentProps,
+} from './interfaces/ToDoListScreenComponentsProps';
 import {ToDoListScreenContentType} from './interfaces/ToDoListScreenContentType';
 import {ToDoListScreenItemsData} from './interfaces/ToDoListScreenItemsData';
 import {ToDoListScreenProps} from './interfaces/ToDoListScreenProps';
@@ -96,6 +104,10 @@ const ToDoListScreen = (props: ToDoListScreenProps) => {
 
   /// Actions
 
+  const onAddItemTapped = () => {
+    console.log('item tapped!');
+  };
+
   const onSignOutTapped = () => {
     useCases.signOutUseCase
       .signOut()
@@ -126,13 +138,16 @@ const ToDoListScreen = (props: ToDoListScreenProps) => {
       isDone: items[itemID].isDone,
     }));
 
-    const signOutButtonData = {
+    const buttonsData = {
       key: '2',
-      contentType: ToDoListScreenContentType.signOutButton,
-      title: 'Sign out',
+      contentType: ToDoListScreenContentType.buttons,
+      addItemTitle: 'Add item',
+      onAddItemTapped,
+      signOutTitle: 'Sign out',
+      onSignOutTapped,
     };
 
-    screenContent.push(titleData, ...itemsData, signOutButtonData);
+    screenContent.push(titleData, ...itemsData, buttonsData);
     return screenContent;
   };
 
@@ -141,11 +156,26 @@ const ToDoListScreen = (props: ToDoListScreenProps) => {
   > = ({item}) => {
     switch (item.contentType) {
       case ToDoListScreenContentType.title:
-        return null;
+        return (
+          <ToDoListScreenTitleComponent
+            {...(item as ToDoListScreenTitleComponentProps &
+              ListItemPresentable<ToDoListScreenContentType>)}
+          />
+        );
       case ToDoListScreenContentType.item:
-        return null;
-      case ToDoListScreenContentType.signOutButton:
-        return null;
+        return (
+          <ToDoListScreenItemComponent
+            {...(item as ToDoListScreenItemComponentProps &
+              ListItemPresentable<ToDoListScreenContentType>)}
+          />
+        );
+      case ToDoListScreenContentType.buttons:
+        return (
+          <ToDoListScreenButtonsComponent
+            {...(item as ToDoListScreenButtonsComponentProps &
+              ListItemPresentable<ToDoListScreenContentType>)}
+          />
+        );
 
       default:
         return null;
