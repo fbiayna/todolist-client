@@ -8,9 +8,8 @@ import {
   finishedVerifyingAuthentication,
   setAuthenticationState,
 } from '../../../application/redux/actions';
-import {container} from 'tsyringe';
-import {IsAuthenticatedUseCaseType} from '../../../domain/interfaces/usecases/auth/IsAuthenticatedUseCaseType';
 import {filter, share, take} from 'rxjs';
+import authUseCases from '../../usecases/AuthUseCases';
 
 type SplashScreenProps = {
   finishedSplashAnimation: () => void;
@@ -19,14 +18,6 @@ type SplashScreenProps = {
 };
 
 const SplashScreen = (props: SplashScreenProps) => {
-  /// Dependencies
-
-  const useCases = {
-    isAuthenticatedUseCase: container.resolve<IsAuthenticatedUseCaseType>(
-      'IsAuthenticatedUseCaseType',
-    ),
-  };
-
   /// Effects
 
   useEffect(() => {
@@ -34,7 +25,7 @@ const SplashScreen = (props: SplashScreenProps) => {
       setTimeout(() => props.finishedSplashAnimation(), 2000);
     };
 
-    const isAuthenticatedObservable = useCases.isAuthenticatedUseCase
+    const isAuthenticatedObservable = authUseCases
       .isAuthenticated()
       .pipe(take(1), share());
 
