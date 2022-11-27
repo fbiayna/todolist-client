@@ -7,10 +7,7 @@ import {setAuthenticationState} from '../../../application/redux/actions';
 import authUseCases from '../../usecases/AuthUseCases';
 import userUseCases from '../../usecases/UserUseCases';
 import EmailPasswordSignUpScreenStyles from './styles/EmailPasswordSignUpScreenStyles';
-
-type EmailPasswordSignUpScreenProps = {
-  setAuthenticationState: (isAuthenticated: boolean) => void;
-};
+import {EmailPasswordSignUpScreenProps} from './types/EmailPasswordSignUpScreenProps';
 
 const EmailPasswordSignUpScreen = (props: EmailPasswordSignUpScreenProps) => {
   /// Navigation

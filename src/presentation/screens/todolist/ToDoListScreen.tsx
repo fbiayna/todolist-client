@@ -17,10 +17,10 @@ import {
   ToDoListScreenButtonsComponentProps,
   ToDoListScreenItemComponentProps,
   ToDoListScreenTitleComponentProps,
-} from './interfaces/ToDoListScreenComponentsProps';
-import {ToDoListScreenContentType} from './interfaces/ToDoListScreenContentType';
-import {ToDoListScreenItemsData} from './interfaces/ToDoListScreenItemsData';
-import {ToDoListScreenProps} from './interfaces/ToDoListScreenProps';
+} from './types/ToDoListScreenComponentsProps';
+import {ToDoListScreenContentType} from './types/ToDoListScreenContentType';
+import {ToDoListScreenItemsData} from './types/ToDoListScreenItemsData';
+import {ToDoListScreenProps} from './types/ToDoListScreenProps';
 import ToDoListScreenStyles from './styles/ToDoListScreenStyles';
 
 const ToDoListScreen = (props: ToDoListScreenProps) => {

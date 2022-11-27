@@ -10,12 +10,7 @@ import {
 } from '../../../application/redux/actions';
 import {filter, share, take} from 'rxjs';
 import authUseCases from '../../usecases/AuthUseCases';
-
-type SplashScreenProps = {
-  finishedSplashAnimation: () => void;
-  finishedVerifyingAuthentication: () => void;
-  setAuthenticationState: (isAuthenticated: boolean) => void;
-};
+import {SplashScreenProps} from './types/SplashScreenProps';
 
 const SplashScreen = (props: SplashScreenProps) => {
   /// Effects

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import {ToDoListScreenItemComponentProps} from '../interfaces/ToDoListScreenComponentsProps';
+import {ToDoListScreenItemComponentProps} from '../types/ToDoListScreenComponentsProps';
 
 const ToDoListScreenItemComponent = (
   props: ToDoListScreenItemComponentProps,

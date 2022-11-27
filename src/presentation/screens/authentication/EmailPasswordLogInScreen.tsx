@@ -6,10 +6,7 @@ import {take} from 'rxjs';
 import {setAuthenticationState} from '../../../application/redux/actions';
 import authUseCases from '../../usecases/AuthUseCases';
 import EmailPasswordLogInScreenStyles from './styles/EmailPasswordLogInScreenStyles';
-
-type EmailPasswordLogInScreenProps = {
-  setAuthenticationState: (isAuthenticated: boolean) => void;
-};
+import {EmailPasswordLogInScreenProps} from './types/EmailPasswordLogInScreenProps';
 
 const EmailPasswordLogInScreen = (props: EmailPasswordLogInScreenProps) => {
   /// Navigation
