@@ -3,29 +3,13 @@ import React, {useState} from 'react';
 import {Text, TextInput, TouchableWithoutFeedback, View} from 'react-native';
 import {connect} from 'react-redux';
 import {mergeMap, take} from 'rxjs';
-import {container} from 'tsyringe';
 import {setAuthenticationState} from '../../../application/redux/actions';
-import {EmailPasswordSignUpUseCaseType} from '../../../domain/interfaces/usecases/auth/EmailPasswordSignUpUseCaseType';
-import {CreateUserUseCaseType} from '../../../domain/interfaces/usecases/user/CreateUserUseCaseType';
+import authUseCases from '../../usecases/AuthUseCases';
+import userUseCases from '../../usecases/UserUseCases';
 import EmailPasswordSignUpScreenStyles from './styles/EmailPasswordSignUpScreenStyles';
-
-type EmailPasswordSignUpScreenProps = {
-  setAuthenticationState: (isAuthenticated: boolean) => void;
-};
+import {EmailPasswordSignUpScreenProps} from './types/EmailPasswordSignUpScreenProps';
 
 const EmailPasswordSignUpScreen = (props: EmailPasswordSignUpScreenProps) => {
-  /// Dependencies
-
-  const useCases = {
-    emailPasswordSignUpUseCase:
-      container.resolve<EmailPasswordSignUpUseCaseType>(
-        'EmailPasswordSignUpUseCaseType',
-      ),
-    createUserUseCase: container.resolve<CreateUserUseCaseType>(
-      'CreateUserUseCaseType',
-    ),
-  };
-
   /// Navigation
 
   const navigation = useNavigation();
@@ -40,10 +24,10 @@ const EmailPasswordSignUpScreen = (props: EmailPasswordSignUpScreenProps) => {
 
   const onEmailPasswordSignUpDoneTapped = () => {
     if (name && email && password) {
-      useCases.emailPasswordSignUpUseCase
+      authUseCases
         .emailPasswordSignUp(email, password)
         .pipe(
-          mergeMap(() => useCases.createUserUseCase.createUser(name, email)),
+          mergeMap(() => userUseCases.createUser(name, email)),
           take(1),
         )
         .subscribe({

@@ -3,13 +3,12 @@ import React, {useEffect, useRef, useState} from 'react';
 import {View, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {Subscription, take} from 'rxjs';
-import {container} from 'tsyringe';
 import {signOut} from '../../../application/redux/actions';
-import {SignOutUseCaseType} from '../../../domain/interfaces/usecases/auth/SignOutUseCaseType';
-import {OnItemChangedUseCaseType} from '../../../domain/interfaces/usecases/item/OnItemChangedUseCaseType';
-import {OnUserChangedUseCaseType} from '../../../domain/interfaces/usecases/user/OnUserChangedUseCaseType';
 import {ListItemPresentable} from '../../interfaces/ListItemPresentable';
 import {VariousContentListRenderItem} from '../../interfaces/ListRenderItem';
+import authUseCases from '../../usecases/AuthUseCases';
+import itemUseCases from '../../usecases/ItemUseCases';
+import userUseCases from '../../usecases/UserUseCases';
 import difference from '../../utils/SetDifference';
 import ToDoListScreenButtonsComponent from './components/ToDoListScreenButtonsComponent';
 import ToDoListScreenItemComponent from './components/ToDoListScreenItemComponent';
@@ -18,25 +17,13 @@ import {
   ToDoListScreenButtonsComponentProps,
   ToDoListScreenItemComponentProps,
   ToDoListScreenTitleComponentProps,
-} from './interfaces/ToDoListScreenComponentsProps';
-import {ToDoListScreenContentType} from './interfaces/ToDoListScreenContentType';
-import {ToDoListScreenItemsData} from './interfaces/ToDoListScreenItemsData';
-import {ToDoListScreenProps} from './interfaces/ToDoListScreenProps';
+} from './types/ToDoListScreenComponentsProps';
+import {ToDoListScreenContentType} from './types/ToDoListScreenContentType';
+import {ToDoListScreenItemsData} from './types/ToDoListScreenItemsData';
+import {ToDoListScreenProps} from './types/ToDoListScreenProps';
 import ToDoListScreenStyles from './styles/ToDoListScreenStyles';
 
 const ToDoListScreen = (props: ToDoListScreenProps) => {
-  /// Dependencies
-
-  const useCases = {
-    onUserChangedUseCase: container.resolve<OnUserChangedUseCaseType>(
-      'OnUserChangedUseCaseType',
-    ),
-    onItemChangedUseCase: container.resolve<OnItemChangedUseCaseType>(
-      'OnItemChangedUseCaseType',
-    ),
-    signOutUseCase: container.resolve<SignOutUseCaseType>('SignOutUseCaseType'),
-  };
-
   /// Refs
 
   const itemsSubscriptions = useRef<{[key: string]: Subscription}>({});
@@ -50,15 +37,13 @@ const ToDoListScreen = (props: ToDoListScreenProps) => {
   /// Effects
 
   useEffect(() => {
-    const userSubscription = useCases.onUserChangedUseCase
-      .onUserChanged()
-      .subscribe({
-        next: loadedUser => {
-          setName(loadedUser.name);
-          setItemsIDs(loadedUser.itemsIDs);
-        },
-        error: error => console.log(error),
-      });
+    const userSubscription = userUseCases.onUserChanged().subscribe({
+      next: loadedUser => {
+        setName(loadedUser.name);
+        setItemsIDs(loadedUser.itemsIDs);
+      },
+      error: error => console.log(error),
+    });
 
     return () => {
       userSubscription.unsubscribe();
@@ -82,17 +67,15 @@ const ToDoListScreen = (props: ToDoListScreenProps) => {
     });
 
     itemsIDsToSubscribe.forEach(itemID => {
-      const subscription = useCases.onItemChangedUseCase
-        .onItemChanged(itemID)
-        .subscribe({
-          next: item => {
-            setItems(oldItems => ({
-              ...oldItems,
-              [itemID]: item,
-            }));
-          },
-          error: error => console.log(error),
-        });
+      const subscription = itemUseCases.onItemChanged(itemID).subscribe({
+        next: item => {
+          setItems(oldItems => ({
+            ...oldItems,
+            [itemID]: item,
+          }));
+        },
+        error: error => console.log(error),
+      });
       itemsSubscriptions.current[itemID] = subscription;
     });
 
@@ -109,7 +92,7 @@ const ToDoListScreen = (props: ToDoListScreenProps) => {
   };
 
   const onSignOutTapped = () => {
-    useCases.signOutUseCase
+    authUseCases
       .signOut()
       .pipe(take(1))
       .subscribe({

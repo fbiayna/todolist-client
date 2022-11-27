@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, TouchableWithoutFeedback, View} from 'react-native';
-import {ToDoListScreenButtonsComponentProps} from '../interfaces/ToDoListScreenComponentsProps';
+import {ToDoListScreenButtonsComponentProps} from '../types/ToDoListScreenComponentsProps';
 
 const ToDoListScreenButtonsComponent = (
   props: ToDoListScreenButtonsComponentProps,
