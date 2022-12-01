@@ -1,5 +1,5 @@
 export type MainStackNavigatorParamListType = {
-  toDoListScreen: undefined;
+  toDoListScreenContainer: undefined;
 };
 
 declare global {

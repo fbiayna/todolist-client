@@ -3,12 +3,22 @@ import React, {useState} from 'react';
 import {Text, TextInput, TouchableWithoutFeedback, View} from 'react-native';
 import {connect} from 'react-redux';
 import {take} from 'rxjs';
+import {container} from 'tsyringe';
 import {setAuthenticationState} from '../../../application/redux/actions';
-import authUseCases from '../../usecases/AuthUseCases';
+import {EmailPasswordLogInUseCaseType} from '../../../domain/interfaces/usecases/auth/EmailPasswordLogInUseCaseType';
 import EmailPasswordLogInScreenStyles from './styles/EmailPasswordLogInScreenStyles';
 import {EmailPasswordLogInScreenProps} from './types/EmailPasswordLogInScreenProps';
 
 const EmailPasswordLogInScreen = (props: EmailPasswordLogInScreenProps) => {
+  /// Dependencies
+
+  const useCases = {
+    emailPasswordLogInInstance:
+      container.resolve<EmailPasswordLogInUseCaseType>(
+        'EmailPasswordLogInUseCaseType',
+      ),
+  };
+
   /// Navigation
 
   const navigation = useNavigation();
@@ -22,7 +32,7 @@ const EmailPasswordLogInScreen = (props: EmailPasswordLogInScreenProps) => {
 
   const onEmailPasswordLogInDoneTapped = () => {
     if (email && password) {
-      authUseCases
+      useCases.emailPasswordLogInInstance
         .emailPasswordLogIn(email, password)
         .pipe(take(1))
         .subscribe({
