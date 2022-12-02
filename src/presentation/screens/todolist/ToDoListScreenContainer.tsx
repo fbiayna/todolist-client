@@ -43,7 +43,6 @@ const ToDoListScreenContainer = (props: ToDoListScreenContainerProps) => {
       .onUserChanged()
       .subscribe({
         next: loadedUser => {
-          console.log('loadedUser', loadedUser);
           setName(loadedUser.name);
           setItemsIDs(loadedUser.itemsIDs);
         },
