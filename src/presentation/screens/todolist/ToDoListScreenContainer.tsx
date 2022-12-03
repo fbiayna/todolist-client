@@ -63,6 +63,7 @@ const ToDoListScreenContainer = (props: ToDoListScreenContainerProps) => {
 
     itemsIDsToUnsubscribe.forEach(itemID => {
       itemsSubscriptions.current[itemID].unsubscribe();
+      delete itemsSubscriptions.current[itemID];
       setItems(oldItems => {
         let newItems = {...oldItems};
         delete newItems[itemID];
