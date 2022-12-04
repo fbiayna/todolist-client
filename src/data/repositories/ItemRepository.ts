@@ -29,7 +29,6 @@ export class ItemRepository implements ItemRepositoryType {
         .doc(itemID)
         .onSnapshot(
           snapshot => {
-            console.log('snapshot', snapshot.data());
             const item = itemConverter.fromFirestore(snapshot);
             subscriber.next(item);
             subscriber.complete();

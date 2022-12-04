@@ -1,7 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import ToDoListScreen from '../../screens/todolist/ToDoListScreen';
-import {MainStackNavigatorParamListType} from '../interfaces/MainStackNavigatorParamListType';
+import ToDoListScreenContainer from '../../screens/todolist/ToDoListScreenContainer';
+import {MainStackNavigatorParamListType} from '../types/MainStackNavigatorParamListType';
 
 const MainStack = createStackNavigator<MainStackNavigatorParamListType>();
 
@@ -9,8 +9,11 @@ const MainStackNavigator = () => {
   /// Render
 
   return (
-    <MainStack.Navigator initialRouteName={'toDoListScreen'}>
-      <MainStack.Screen name={'toDoListScreen'} component={ToDoListScreen} />
+    <MainStack.Navigator initialRouteName={'toDoListScreenContainer'}>
+      <MainStack.Screen
+        name={'toDoListScreenContainer'}
+        component={ToDoListScreenContainer}
+      />
     </MainStack.Navigator>
   );
 };

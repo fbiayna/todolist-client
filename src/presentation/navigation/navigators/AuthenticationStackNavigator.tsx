@@ -1,8 +1,8 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import EmailPasswordLogInScreen from '../../screens/authentication/EmailPasswordLogInScreen';
-import EmailPasswordSignUpScreen from '../../screens/authentication/EmailPasswordSignUpScreen';
-import {AuthenticationStackNavigatorParamListType} from '../interfaces/AuthenticationStackNavigatorParamListType';
+import AuthenticationScreenContainer from '../../screens/authentication/AuthenticationScreenContainer';
+import AuthenticationScreenMethodsType from '../../screens/authentication/types/AuthenticationScreenMethodsType';
+import {AuthenticationStackNavigatorParamListType} from '../types/AuthenticationStackNavigatorParamListType';
 
 const AuthenticationStack =
   createStackNavigator<AuthenticationStackNavigatorParamListType>();
@@ -11,15 +11,14 @@ const AuthenticationStackNavigator = () => {
   /// Render
 
   return (
-    <AuthenticationStack.Navigator
-      initialRouteName={'emailPasswordLogInScreen'}>
+    <AuthenticationStack.Navigator initialRouteName={'authenticationScreen'}>
       <AuthenticationStack.Screen
-        name={'emailPasswordSignUpScreen'}
-        component={EmailPasswordSignUpScreen}
-      />
-      <AuthenticationStack.Screen
-        name={'emailPasswordLogInScreen'}
-        component={EmailPasswordLogInScreen}
+        name={'authenticationScreen'}
+        initialParams={{
+          authenticationMethod:
+            AuthenticationScreenMethodsType.emailPasswordLogIn,
+        }}
+        component={AuthenticationScreenContainer}
       />
     </AuthenticationStack.Navigator>
   );
