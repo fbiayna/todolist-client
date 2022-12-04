@@ -2,7 +2,13 @@ import React from 'react';
 import {FlatList, View} from 'react-native';
 import {ListItemPresentable} from '../../interfaces/ListItemPresentable';
 import {VariousContentListRenderItem} from '../../interfaces/ListRenderItem';
+import AuthenticationScreenInputComponent from './components/AuthenticationScreenInputComponent';
+import AuthenticationScreenTitleComponent from './components/AuthenticationScreenTitleComponent';
 import AuthenticationScreenPresenterStyles from './styles/AuthenticationScreenPresenterStyles';
+import {
+  AuthenticationScreenInputComponentProps,
+  AuthenticationScreenTitleComponentProps,
+} from './types/AuthenticationScreenComponentsProps';
 import AuthenticationScreenMethodsType from './types/AuthenticationScreenMethodsType';
 import {AuthenticationScreenPresenterContentType} from './types/AuthenticationScreenPresenterContentType';
 import {AuthenticationScreenPresenterProps} from './types/AuthenticationScreenPresenterProps';
@@ -97,9 +103,21 @@ const AuthenticationScreenPresenter = (
   > = ({item}) => {
     switch (item.contentType) {
       case AuthenticationScreenPresenterContentType.title:
+        return (
+          <AuthenticationScreenTitleComponent
+            {...(item as AuthenticationScreenTitleComponentProps &
+              ListItemPresentable<AuthenticationScreenPresenterContentType>)}
+          />
+        );
       case AuthenticationScreenPresenterContentType.nameInput:
       case AuthenticationScreenPresenterContentType.emailInput:
       case AuthenticationScreenPresenterContentType.passwordInput:
+        return (
+          <AuthenticationScreenInputComponent
+            {...(item as AuthenticationScreenInputComponentProps &
+              ListItemPresentable<AuthenticationScreenPresenterContentType>)}
+          />
+        );
       case AuthenticationScreenPresenterContentType.doneButton:
       case AuthenticationScreenPresenterContentType.changeMethodButton:
         return <View />;
