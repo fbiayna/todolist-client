@@ -1,3 +1,3 @@
-export type EmailPasswordSignUpScreenProps = {
+export type AuthenticationScreenContainerProps = {
   setAuthenticationState: (isAuthenticated: boolean) => void;
 };

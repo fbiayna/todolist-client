@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import ConnectedSwitchStackNavigator from './SwitchStackNavigator';
-import {RootStackNavigatorParamListType} from '../interfaces/RootStackNavigatorParamListType';
+import {RootStackNavigatorParamListType} from '../types/RootStackNavigatorParamListType';
 
 const RootStack = createStackNavigator<RootStackNavigatorParamListType>();
 

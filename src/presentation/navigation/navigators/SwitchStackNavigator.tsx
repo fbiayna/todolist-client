@@ -5,7 +5,7 @@ import MainStackNavigator from './MainStackNavigator';
 import SplashScreen from '../../screens/splash/SplashScreen';
 import fadeInScreenOptionsStyles from './styles/FadeInScreenOptionsStyles';
 import AuthenticationStackNavigator from './AuthenticationStackNavigator';
-import {SwitchStackNavigatorParamListType} from '../interfaces/SwitchStackNavigatorParamListType';
+import {SwitchStackNavigatorParamListType} from '../types/SwitchStackNavigatorParamListType';
 
 const SwitcherStack = createStackNavigator<SwitchStackNavigatorParamListType>();
 
