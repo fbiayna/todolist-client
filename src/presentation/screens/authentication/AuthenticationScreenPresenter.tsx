@@ -1,5 +1,7 @@
 import React from 'react';
 import {FlatList, View} from 'react-native';
+import ButtonComponent from '../../components/buttons/ButtonComponent';
+import {ButtonComponentProps} from '../../components/buttons/types/ButtonComponentProps';
 import {ListItemPresentable} from '../../interfaces/ListItemPresentable';
 import {VariousContentListRenderItem} from '../../interfaces/ListRenderItem';
 import AuthenticationScreenInputComponent from './components/AuthenticationScreenInputComponent';
@@ -78,6 +80,7 @@ const AuthenticationScreenPresenter = (
         AuthenticationScreenMethodsType.emailPasswordLogIn
           ? 'Go to SignUp'
           : 'Go to LogIn',
+      onPress: props.onChangeAuthenticationMethodTapped,
     };
 
     screenContent.push(
@@ -120,7 +123,12 @@ const AuthenticationScreenPresenter = (
         );
       case AuthenticationScreenPresenterContentType.doneButton:
       case AuthenticationScreenPresenterContentType.changeMethodButton:
-        return <View />;
+        return (
+          <ButtonComponent
+            {...(item as ButtonComponentProps &
+              ListItemPresentable<AuthenticationScreenPresenterContentType>)}
+          />
+        );
 
       default:
         return null;

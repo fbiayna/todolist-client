@@ -1,5 +1,5 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {mergeMap, take} from 'rxjs';
 import {container} from 'tsyringe';
@@ -44,9 +44,17 @@ const AuthenticationScreenContainer = (
 
   /// States
 
-  const [name, setName] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [name, setName] = useState<string | undefined>();
+  const [email, setEmail] = useState<string | undefined>();
+  const [password, setPassword] = useState<string | undefined>();
+
+  /// Effects
+
+  useEffect(() => {
+    setName(undefined);
+    setEmail(undefined);
+    setPassword(undefined);
+  }, [authenticationMethod]);
 
   /// Actions
 
