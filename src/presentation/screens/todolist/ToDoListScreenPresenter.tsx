@@ -10,7 +10,7 @@ import {
   ToDoListScreenItemComponentProps,
   ToDoListScreenTitleComponentProps,
 } from './types/ToDoListScreenComponentsProps';
-import {ToDoListScreenContentType} from './types/ToDoListScreenContentType';
+import {ToDoListScreenPresenterContentType} from './types/ToDoListScreenPresenterContentType';
 import ToDoListScreenStyles from './styles/ToDoListScreenStyles';
 import {ToDoListScreenPresenterProps} from './types/ToDoListScreenPresenterProps';
 
@@ -18,11 +18,12 @@ const ToDoListScreenPresenter = (props: ToDoListScreenPresenterProps) => {
   /// FlatList setup
 
   const getData = () => {
-    let screenContent: ListItemPresentable<ToDoListScreenContentType>[] = [];
+    let screenContent: ListItemPresentable<ToDoListScreenPresenterContentType>[] =
+      [];
 
     const titleData = {
       key: '1',
-      contentType: ToDoListScreenContentType.title,
+      contentType: ToDoListScreenPresenterContentType.title,
       title: 'Title',
       name: props.name,
     };
@@ -30,7 +31,7 @@ const ToDoListScreenPresenter = (props: ToDoListScreenPresenterProps) => {
     const itemsData =
       props.itemsIDs?.map(itemID => ({
         key: itemID,
-        contentType: ToDoListScreenContentType.item,
+        contentType: ToDoListScreenPresenterContentType.item,
         itemID,
         title: props.items?.[itemID].title,
         isDone: props.items?.[itemID].isDone,
@@ -38,7 +39,7 @@ const ToDoListScreenPresenter = (props: ToDoListScreenPresenterProps) => {
 
     const buttonsData = {
       key: '2',
-      contentType: ToDoListScreenContentType.buttons,
+      contentType: ToDoListScreenPresenterContentType.buttons,
       addItemTitle: 'Add item',
       onAddItemTapped: props.onAddItemTapped,
       signOutTitle: 'Sign out',
@@ -50,28 +51,28 @@ const ToDoListScreenPresenter = (props: ToDoListScreenPresenterProps) => {
   };
 
   const renderItemData: VariousContentListRenderItem<
-    ToDoListScreenContentType
+    ToDoListScreenPresenterContentType
   > = ({item}) => {
     switch (item.contentType) {
-      case ToDoListScreenContentType.title:
+      case ToDoListScreenPresenterContentType.title:
         return (
           <ToDoListScreenTitleComponent
             {...(item as ToDoListScreenTitleComponentProps &
-              ListItemPresentable<ToDoListScreenContentType>)}
+              ListItemPresentable<ToDoListScreenPresenterContentType>)}
           />
         );
-      case ToDoListScreenContentType.item:
+      case ToDoListScreenPresenterContentType.item:
         return (
           <ToDoListScreenItemComponent
             {...(item as ToDoListScreenItemComponentProps &
-              ListItemPresentable<ToDoListScreenContentType>)}
+              ListItemPresentable<ToDoListScreenPresenterContentType>)}
           />
         );
-      case ToDoListScreenContentType.buttons:
+      case ToDoListScreenPresenterContentType.buttons:
         return (
           <ToDoListScreenButtonsComponent
             {...(item as ToDoListScreenButtonsComponentProps &
-              ListItemPresentable<ToDoListScreenContentType>)}
+              ListItemPresentable<ToDoListScreenPresenterContentType>)}
           />
         );
 
