@@ -11,6 +11,7 @@ import difference from '../../utils/SetDifference';
 import {ToDoListScreenItemsData} from './types/ToDoListScreenItemsData';
 import {ToDoListScreenContainerProps} from './types/ToDoListScreenContainerProps';
 import ToDoListScreenPresenter from './ToDoListScreenPresenter';
+import {ToDoListScreenPresenterProps} from './types/ToDoListScreenPresenterProps';
 
 const ToDoListScreenContainer = (props: ToDoListScreenContainerProps) => {
   /// Dependencies
@@ -108,13 +109,21 @@ const ToDoListScreenContainer = (props: ToDoListScreenContainerProps) => {
       });
   };
 
+  /// Presenter setup
+
+  const presenterData = {
+    name,
+    itemsIDs,
+    items,
+    onAddItemTapped,
+    onSignOutTapped,
+  };
+
+  /// Render
+
   return (
     <ToDoListScreenPresenter
-      name={name}
-      itemsIDs={itemsIDs}
-      items={items}
-      onAddItemTapped={onAddItemTapped}
-      onSignOutTapped={onSignOutTapped}
+      {...(presenterData as ToDoListScreenPresenterProps)}
     />
   );
 };

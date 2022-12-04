@@ -11,6 +11,7 @@ import {AuthenticationScreenRouteProps} from '../../navigation/types/Authenticat
 import AuthenticationScreenPresenter from './AuthenticationScreenPresenter';
 import {AuthenticationScreenContainerProps} from './types/AuthenticationScreenContainerProps';
 import AuthenticationScreenMethodsType from './types/AuthenticationScreenMethodsType';
+import {AuthenticationScreenPresenterProps} from './types/AuthenticationScreenPresenterProps';
 
 const AuthenticationScreenContainer = (
   props: AuthenticationScreenContainerProps,
@@ -96,18 +97,26 @@ const AuthenticationScreenContainer = (
     });
   };
 
+  /// Presenter setup
+
+  const presenterData = {
+    name,
+    email,
+    password,
+    setName,
+    setEmail,
+    setPassword,
+    onEmailPasswordLogInDoneTapped,
+    onEmailPasswordSignUpDoneTapped,
+    onChangeAuthenticationMethodTapped,
+    authenticationMethod,
+  };
+
+  /// Render
+
   return (
     <AuthenticationScreenPresenter
-      name={name}
-      email={email}
-      password={password}
-      setName={setName}
-      setEmail={setEmail}
-      setPassword={setPassword}
-      onEmailPasswordLogInDoneTapped={onEmailPasswordLogInDoneTapped}
-      onEmailPasswordSignUpDoneTapped={onEmailPasswordSignUpDoneTapped}
-      onChangeAuthenticationMethodTapped={onChangeAuthenticationMethodTapped}
-      authenticationMethod={authenticationMethod}
+      {...(presenterData as AuthenticationScreenPresenterProps)}
     />
   );
 };
