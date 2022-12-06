@@ -8,7 +8,6 @@ export type ToDoListScreenPresenterProps = {
   onSetItemIsDoneTapped: (itemID: string) => void;
   onDeleteItemTapped: (itemID: string) => void;
   name?: string;
-  itemsIDs?: string[];
   items?: ToDoListScreenItemsData;
   isAddItemModalVisible?: boolean;
   newItemTitle?: string;

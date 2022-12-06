@@ -12,6 +12,7 @@ import {CreateItemUseCaseType} from '../../../domain/interfaces/usecases/item/Cr
 import {DeleteItemUseCaseType} from '../../../domain/interfaces/usecases/item/DeleteItemUseCaseType';
 import {SetItemTitleUseCaseType} from '../../../domain/interfaces/usecases/item/SetItemTitleUseCaseType';
 import {SetItemIsDoneUseCaseType} from '../../../domain/interfaces/usecases/item/SetItemIsDoneUseCaseType';
+import User from '../../../domain/entities/User';
 
 const ToDoListScreenContainer = () => {
   /// Dependencies
@@ -43,32 +44,28 @@ const ToDoListScreenContainer = () => {
 
   /// States
 
-  const [name, setName] = useState<string>();
-  const [itemsIDs, setItemsIDs] = useState<string[]>();
+  const [user, setUser] = useState<User>();
   const [items, setItems] = useState<ToDoListScreenItemsData>();
   const [isAddItemModalVisible, setIsAddItemModalVisible] = useState<boolean>();
-  const [newItemTitle, setNewItemTitle] = useState<string>();
+  const [newItemTitle, setNewItemTitle] = useState<string | null>();
 
   /// Effects
 
   useEffect(() => {
-    const userSubscription = useCases.onUserChangedInstance
+    const subscription = useCases.onUserChangedInstance
       .onUserChanged()
       .subscribe({
-        next: loadedUser => {
-          setName(loadedUser.name);
-          setItemsIDs(loadedUser.itemsIDs);
-        },
+        next: setUser,
         error: error => console.log(error),
       });
 
     return () => {
-      userSubscription.unsubscribe();
+      subscription.unsubscribe();
     };
   }, []);
 
   useEffect(() => {
-    const newItemsIDs = new Set(itemsIDs);
+    const newItemsIDs = new Set(user?.itemsIDs);
     const oldItemsIDs = new Set(Object.keys(itemsSubscriptions.current));
 
     const itemsIDsToSubscribe = difference(newItemsIDs, oldItemsIDs);
@@ -103,7 +100,7 @@ const ToDoListScreenContainer = () => {
       Object.keys(itemsSubscriptions.current).forEach(itemID => {
         itemsSubscriptions.current[itemID].unsubscribe();
       });
-  }, [itemsIDs]);
+  }, [user?.itemsIDs]);
 
   /// Actions
 
@@ -116,8 +113,12 @@ const ToDoListScreenContainer = () => {
       useCases.createItemInstance
         .createItem(newItemTitle)
         .pipe(take(1))
-        .subscribe({error: error => console.log(error)});
+        .subscribe({
+          next: _ => setNewItemTitle(null),
+          error: error => console.log(error),
+        });
     }
+    setIsAddItemModalVisible(false);
   };
 
   const onSetItemTitleTapped = (itemID: string) => {
@@ -148,8 +149,7 @@ const ToDoListScreenContainer = () => {
   /// Presenter setup
 
   const presenterData = {
-    name,
-    itemsIDs,
+    name: user?.name,
     items,
     isAddItemModalVisible,
     newItemTitle,

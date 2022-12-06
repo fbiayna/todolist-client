@@ -31,7 +31,6 @@ export class ItemRepository implements ItemRepositoryType {
           snapshot => {
             const item = itemConverter.fromFirestore(snapshot);
             subscriber.next(item);
-            subscriber.complete();
           },
           error => subscriber.error(error),
         );

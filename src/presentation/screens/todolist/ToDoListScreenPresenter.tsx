@@ -2,17 +2,17 @@ import React from 'react';
 import {View, FlatList} from 'react-native';
 import {ListItemPresentable} from '../../interfaces/ListItemPresentable';
 import {VariousContentListRenderItem} from '../../interfaces/ListRenderItem';
-import ToDoListScreenButtonsComponent from './components/ToDoListScreenButtonsComponent';
 import ToDoListScreenItemComponent from './components/ToDoListScreenItemComponent';
 import ToDoListScreenTitleComponent from './components/ToDoListScreenTitleComponent';
 import {
-  ToDoListScreenButtonsComponentProps,
   ToDoListScreenItemComponentProps,
   ToDoListScreenTitleComponentProps,
 } from './types/ToDoListScreenComponentsProps';
 import {ToDoListScreenPresenterContentType} from './types/ToDoListScreenPresenterContentType';
 import ToDoListScreenStyles from './styles/ToDoListScreenStyles';
 import {ToDoListScreenPresenterProps} from './types/ToDoListScreenPresenterProps';
+import IconButtonComponent from '../../components/buttons/IconButtonComponent';
+import ToDoListScreenAddItemComponent from './components/ToDoListScreenAddItemComponent';
 
 const ToDoListScreenPresenter = (props: ToDoListScreenPresenterProps) => {
   /// FlatList setup
@@ -28,23 +28,17 @@ const ToDoListScreenPresenter = (props: ToDoListScreenPresenterProps) => {
       name: props.name,
     };
 
-    const itemsData =
-      props.itemsIDs?.map(itemID => ({
-        key: itemID,
-        contentType: ToDoListScreenPresenterContentType.item,
-        itemID,
-        title: props.items?.[itemID].title,
-        isDone: props.items?.[itemID].isDone,
-      })) ?? [];
+    const itemsData = props.items
+      ? Object.values(props.items).map(item => ({
+          key: item.id,
+          contentType: ToDoListScreenPresenterContentType.item,
+          itemID: item.id,
+          title: item.title,
+          isDone: item.isDone,
+        }))
+      : [];
 
-    const buttonsData = {
-      key: '2',
-      contentType: ToDoListScreenPresenterContentType.buttons,
-      addItemTitle: 'Add item',
-      onAddItemTapped: props.onAddItemTapped,
-    };
-
-    screenContent.push(titleData, ...itemsData, buttonsData);
+    screenContent.push(titleData, ...itemsData);
     return screenContent;
   };
 
@@ -66,13 +60,6 @@ const ToDoListScreenPresenter = (props: ToDoListScreenPresenterProps) => {
               ListItemPresentable<ToDoListScreenPresenterContentType>)}
           />
         );
-      case ToDoListScreenPresenterContentType.buttons:
-        return (
-          <ToDoListScreenButtonsComponent
-            {...(item as ToDoListScreenButtonsComponentProps &
-              ListItemPresentable<ToDoListScreenPresenterContentType>)}
-          />
-        );
 
       default:
         return null;
@@ -83,10 +70,23 @@ const ToDoListScreenPresenter = (props: ToDoListScreenPresenterProps) => {
 
   return (
     <View style={ToDoListScreenStyles.container}>
+      {props.isAddItemModalVisible && (
+        <ToDoListScreenAddItemComponent
+          visible={props.isAddItemModalVisible}
+          title={'Add item'}
+          itemTitle={props.newItemTitle}
+          setItemTitle={props.setNewItemTitle}
+          onEndAddItemTapped={props.onEndAddItemTapped}
+        />
+      )}
       <FlatList
         data={getData()}
         renderItem={renderItemData}
         keyExtractor={item => item.key}
+      />
+      <IconButtonComponent
+        onPress={props.onAddItemTapped}
+        source={{uri: 'https://cdn-icons-png.flaticon.com/512/262/262038.png'}}
       />
     </View>
   );

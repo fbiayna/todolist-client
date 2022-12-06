@@ -1,3 +1,5 @@
+import {ModalProps} from 'react-native';
+
 export type ToDoListScreenTitleComponentProps = {
   title: string;
   name: string;
@@ -9,9 +11,9 @@ export type ToDoListScreenItemComponentProps = {
   isDone: boolean;
 };
 
-export type ToDoListScreenButtonsComponentProps = {
-  addItemTitle: string;
-  onAddItemTapped: () => void;
-  signOutTitle: string;
-  onSignOutTapped: () => void;
-};
+export type ToDoListScreenAddItemComponentProps = {
+  title: string;
+  setItemTitle: (newTitle: string) => void;
+  onEndAddItemTapped: () => void;
+  itemTitle?: string;
+} & ModalProps;

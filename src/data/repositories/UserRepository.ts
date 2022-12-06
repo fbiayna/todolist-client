@@ -30,10 +30,8 @@ export class UserRepository implements UserRepositoryType {
         .doc(userID)
         .onSnapshot(
           snapshot => {
-            console.log('snapshot', snapshot.data());
             const user = userConverter.fromFirestore(snapshot);
             subscriber.next(user);
-            subscriber.complete();
           },
           error => subscriber.error(error),
         );
