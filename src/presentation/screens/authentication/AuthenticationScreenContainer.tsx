@@ -44,16 +44,16 @@ const AuthenticationScreenContainer = (
 
   /// States
 
-  const [name, setName] = useState<string | undefined>();
-  const [email, setEmail] = useState<string | undefined>();
-  const [password, setPassword] = useState<string | undefined>();
+  const [name, setName] = useState<string | null>();
+  const [email, setEmail] = useState<string | null>();
+  const [password, setPassword] = useState<string | null>();
 
   /// Effects
 
   useEffect(() => {
-    setName(undefined);
-    setEmail(undefined);
-    setPassword(undefined);
+    setName(null);
+    setEmail(null);
+    setPassword(null);
   }, [authenticationMethod]);
 
   /// Actions
@@ -90,18 +90,12 @@ const AuthenticationScreenContainer = (
   };
 
   const onChangeAuthenticationMethodTapped = () => {
-    if (
-      authenticationMethod ===
-      AuthenticationScreenMethodsType.emailPasswordLogIn
-    ) {
-      return navigation.setParams({
-        authenticationMethod:
-          AuthenticationScreenMethodsType.emailPasswordSignUp,
-      });
-    }
-
     return navigation.setParams({
-      authenticationMethod: AuthenticationScreenMethodsType.emailPasswordLogIn,
+      authenticationMethod:
+        authenticationMethod ===
+        AuthenticationScreenMethodsType.emailPasswordLogIn
+          ? AuthenticationScreenMethodsType.emailPasswordSignUp
+          : AuthenticationScreenMethodsType.emailPasswordLogIn,
     });
   };
 

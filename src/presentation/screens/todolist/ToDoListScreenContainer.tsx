@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useRef, useState} from 'react';
-import {connect} from 'react-redux';
 import {Subscription, take} from 'rxjs';
 import {container} from 'tsyringe';
-import {signOut} from '../../../application/redux/actions';
-import {SignOutUseCaseType} from '../../../domain/interfaces/usecases/auth/SignOutUseCaseType';
 import {OnItemChangedUseCaseType} from '../../../domain/interfaces/usecases/item/OnItemChangedUseCaseType';
 import {OnUserChangedUseCaseType} from '../../../domain/interfaces/usecases/user/OnUserChangedUseCaseType';
 import difference from '../../utils/SetDifference';
 import {ToDoListScreenItemsData} from './types/ToDoListScreenItemsData';
-import {ToDoListScreenContainerProps} from './types/ToDoListScreenContainerProps';
 import ToDoListScreenPresenter from './ToDoListScreenPresenter';
 import {ToDoListScreenPresenterProps} from './types/ToDoListScreenPresenterProps';
+import {CreateItemUseCaseType} from '../../../domain/interfaces/usecases/item/CreateItemUseCaseType';
+import {DeleteItemUseCaseType} from '../../../domain/interfaces/usecases/item/DeleteItemUseCaseType';
+import {SetItemTitleUseCaseType} from '../../../domain/interfaces/usecases/item/SetItemTitleUseCaseType';
+import {SetItemIsDoneUseCaseType} from '../../../domain/interfaces/usecases/item/SetItemIsDoneUseCaseType';
 
-const ToDoListScreenContainer = (props: ToDoListScreenContainerProps) => {
+const ToDoListScreenContainer = () => {
   /// Dependencies
 
   const useCases = {
@@ -23,8 +23,18 @@ const ToDoListScreenContainer = (props: ToDoListScreenContainerProps) => {
     onItemChangedInstance: container.resolve<OnItemChangedUseCaseType>(
       'OnItemChangedUseCaseType',
     ),
-    signOutInstance:
-      container.resolve<SignOutUseCaseType>('SignOutUseCaseType'),
+    createItemInstance: container.resolve<CreateItemUseCaseType>(
+      'CreateItemUseCaseType',
+    ),
+    setItemTitleInstance: container.resolve<SetItemTitleUseCaseType>(
+      'SetItemTitleUseCaseType',
+    ),
+    setItemIsDoneInstance: container.resolve<SetItemIsDoneUseCaseType>(
+      'SetItemIsDoneUseCaseType',
+    ),
+    deleteItemInstance: container.resolve<DeleteItemUseCaseType>(
+      'DeleteItemUseCaseType',
+    ),
   };
 
   /// Refs
@@ -36,6 +46,8 @@ const ToDoListScreenContainer = (props: ToDoListScreenContainerProps) => {
   const [name, setName] = useState<string>();
   const [itemsIDs, setItemsIDs] = useState<string[]>();
   const [items, setItems] = useState<ToDoListScreenItemsData>();
+  const [isAddItemModalVisible, setIsAddItemModalVisible] = useState<boolean>();
+  const [newItemTitle, setNewItemTitle] = useState<string>();
 
   /// Effects
 
@@ -96,17 +108,41 @@ const ToDoListScreenContainer = (props: ToDoListScreenContainerProps) => {
   /// Actions
 
   const onAddItemTapped = () => {
-    console.log('item tapped!');
+    setIsAddItemModalVisible(true);
   };
 
-  const onSignOutTapped = () => {
-    useCases.signOutInstance
-      .signOut()
+  const onEndAddItemTapped = () => {
+    if (newItemTitle) {
+      useCases.createItemInstance
+        .createItem(newItemTitle)
+        .pipe(take(1))
+        .subscribe({error: error => console.log(error)});
+    }
+  };
+
+  const onSetItemTitleTapped = (itemID: string) => {
+    if (!newItemTitle) {
+      return onDeleteItemTapped(itemID);
+    }
+
+    useCases.setItemTitleInstance
+      .setItemTitle(itemID, newItemTitle)
       .pipe(take(1))
-      .subscribe({
-        next: () => props.signOut(),
-        error: error => console.log(error),
-      });
+      .subscribe({error: error => console.log(error)});
+  };
+
+  const onSetItemIsDoneTapped = (itemID: string) => {
+    useCases.setItemIsDoneInstance
+      .setItemIsDone(itemID, !items?.[itemID].isDone)
+      .pipe(take(1))
+      .subscribe({error: error => console.log(error)});
+  };
+
+  const onDeleteItemTapped = (itemID: string) => {
+    useCases.deleteItemInstance
+      .deleteItem(itemID)
+      .pipe(take(1))
+      .subscribe({error: error => console.log(error)});
   };
 
   /// Presenter setup
@@ -115,8 +151,14 @@ const ToDoListScreenContainer = (props: ToDoListScreenContainerProps) => {
     name,
     itemsIDs,
     items,
+    isAddItemModalVisible,
+    newItemTitle,
+    setNewItemTitle,
     onAddItemTapped,
-    onSignOutTapped,
+    onEndAddItemTapped,
+    onSetItemTitleTapped,
+    onSetItemIsDoneTapped,
+    onDeleteItemTapped,
   };
 
   /// Render
@@ -128,8 +170,4 @@ const ToDoListScreenContainer = (props: ToDoListScreenContainerProps) => {
   );
 };
 
-const mapDispatchToProps = {
-  signOut,
-};
-
-export default connect(null, mapDispatchToProps)(ToDoListScreenContainer);
+export default ToDoListScreenContainer;

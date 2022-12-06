@@ -1,4 +1,4 @@
-import {mergeMap, Observable, throwError} from 'rxjs';
+import {combineLatest, map, mergeMap, Observable, throwError} from 'rxjs';
 import {inject, injectable} from 'tsyringe';
 import {AuthenticationRepositoryType} from '../../../data/interfaces/repositories/AuthenticationRepositoryType';
 import {ItemRepositoryType} from '../../../data/interfaces/repositories/ItemRepositoryType';
@@ -16,17 +16,21 @@ export class CreateItemUseCase implements CreateItemUseCaseType {
     private authenticationRepository: AuthenticationRepositoryType,
   ) {}
 
-  createItem(): Observable<void> {
+  createItem(title: string): Observable<void> {
     const userID = this.authenticationRepository.authenticatedUserID;
 
     if (!userID) {
       return throwError(() => 'There is no userID');
     }
 
-    return this.itemRepository
-      .createItem()
-      .pipe(
-        mergeMap(itemID => this.userRepository.addUserItemID(userID, itemID)),
-      );
+    return this.itemRepository.createItem().pipe(
+      mergeMap(itemID =>
+        combineLatest([
+          this.userRepository.addUserItemID(userID, itemID),
+          this.itemRepository.setItemTitle(itemID, title),
+        ]),
+      ),
+      map(_ => undefined),
+    );
   }
 }

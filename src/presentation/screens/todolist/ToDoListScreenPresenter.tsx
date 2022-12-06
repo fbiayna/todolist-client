@@ -42,8 +42,6 @@ const ToDoListScreenPresenter = (props: ToDoListScreenPresenterProps) => {
       contentType: ToDoListScreenPresenterContentType.buttons,
       addItemTitle: 'Add item',
       onAddItemTapped: props.onAddItemTapped,
-      signOutTitle: 'Sign out',
-      onSignOutTapped: props.onSignOutTapped,
     };
 
     screenContent.push(titleData, ...itemsData, buttonsData);
